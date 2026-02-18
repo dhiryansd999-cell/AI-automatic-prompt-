@@ -212,8 +212,7 @@
     </div>
 
     <script>
-        // API Key must be empty string in this environment; it is provided at runtime.
-        const apiKey = ""; 
+        const apiKey = ""; // MUST stay empty; injected at runtime
         const model = "gemini-2.5-flash-preview-09-2025";
         
         let selections = {
@@ -227,29 +226,43 @@
             selections[type] = value;
             const gridMap = { niche: 'nicheGrid', style: 'styleGrid', character: 'characterGrid', consistency: 'consistencyGrid' };
             const container = document.getElementById(gridMap[type]);
-            container.querySelectorAll('button').forEach(btn => btn.classList.toggle('active', btn.dataset.value === value));
+            if (container) {
+                container.querySelectorAll('button').forEach(btn => btn.classList.toggle('active', btn.dataset.value === value));
+            }
         }
 
         function showMessage(msg, isError = false) {
             const box = document.getElementById('messageBox');
             box.textContent = msg;
-            box.className = `block mb-6 p-4 rounded-xl text-center font-bold text-[10px] tracking-widest ${isError ? 'bg-red-500/10 text-red-500' : 'bg-blue-500/10 text-blue-500'}`;
+            box.className = `block mb-6 p-4 rounded-xl text-center font-bold text-[10px] tracking-widest ${isError ? 'bg-red-500/10 text-red-500 border border-red-500/30' : 'bg-blue-500/10 text-blue-500 border border-blue-500/30'}`;
             setTimeout(() => box.classList.add('hidden'), 5000);
         }
 
-        async function fetchWithRetry(url, options, maxRetries = 5) {
+        async function fetchWithRetry(url, payload, maxRetries = 5) {
             let delay = 1000;
             for (let i = 0; i < maxRetries; i++) {
                 try {
-                    const response = await fetch(url, options);
-                    if (response.ok) return await response.json();
+                    const response = await fetch(url, {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify(payload)
+                    });
+                    
+                    if (response.ok) {
+                        return await response.json();
+                    }
+                    
+                    // Stop on 400s (likely bad request or invalid key)
+                    if (response.status >= 400 && response.status < 500) {
+                        const errData = await response.json().catch(() => ({}));
+                        throw new Error(errData.error?.message || `Request failed with status ${response.status}`);
+                    }
                 } catch (e) {
-                    // Fail silently for retry
+                    if (i === maxRetries - 1) throw e;
                 }
                 await new Promise(r => setTimeout(r, delay));
                 delay *= 2;
             }
-            throw new Error("API Connection Failed after several attempts. Please try again.");
         }
 
         async function handleGenerate() {
@@ -278,41 +291,48 @@
             2. VISUAL CONTINUITY: If Persistent, define a 'Physical Identity Profile' and embed it in every prompt featuring that character.
             3. TECHNICAL PRECISION: Define specific Shot Sizes, Camera Movements, and Lighting.
             
-            OUTPUT:
-            - [Title & Visual Concept]
-            - [Full Narrative Script]
-            - [Story Beats: Sequential Shot List with Script Link + Professional Prompt]
-            - "### SCRIPT_ONLY_START" for raw script.
-            - "### BATCH_PROMPTS_START" for double-spaced raw sequential prompts.`;
+            OUTPUT FORMATTING:
+            - Use clear headers for [Title], [Narration], and [Storyboard].
+            - MUST use marker "### SCRIPT_ONLY_START" before raw script.
+            - MUST use marker "### BATCH_PROMPTS_START" before raw sequential prompts.`;
+
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+            const payload = {
+                contents: [{ parts: [{ text: `Create a professional sequential shot-by-shot production build for: "${topic}"` }] }],
+                systemInstruction: { parts: [{ text: systemPrompt }] }
+            };
 
             try {
-                const data = await fetchWithRetry(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: `Create a professional sequential shot-by-shot production build for: "${topic}"` }] }],
-                        systemInstruction: { parts: [{ text: systemPrompt }] }
-                    })
-                });
-
+                const data = await fetchWithRetry(url, payload);
+                
                 const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;
                 if (!resultText) throw new Error("Build response was empty.");
                 
-                const [main, scriptAndPrompts] = resultText.split("### SCRIPT_ONLY_START");
-                const [script, prompts] = (scriptAndPrompts || "").split("### BATCH_PROMPTS_START");
+                const parts = resultText.split("### SCRIPT_ONLY_START");
+                const mainContent = parts[0];
+                const rest = parts[1] || "";
+                const [scriptPart, promptsPart] = rest.split("### BATCH_PROMPTS_START");
 
-                document.getElementById('mainOutput').innerHTML = main
+                document.getElementById('mainOutput').innerHTML = mainContent
                     .replace(/^## (.*$)/gim, '<h2 class="text-xl font-bold mt-8 mb-4 text-blue-500">$1</h2>')
                     .replace(/\*\*(.*)\*\*/g, '<strong class="text-white">$1</strong>')
                     .replace(/\n/g, '<br>');
                     
-                document.getElementById('batchNarration').innerText = (script || "").trim();
-                document.getElementById('batchOutput').innerText = (prompts || "").trim().split('\n').filter(l => l.length > 20).join('\n\n');
+                document.getElementById('batchNarration').innerText = (scriptPart || "").trim();
+                
+                const cleanPrompts = (promptsPart || "").trim()
+                    .split('\n')
+                    .filter(l => l.trim().length > 20)
+                    .map(l => l.replace(/^\d+\.\s*/, '').replace(/^-\s*/, '').trim())
+                    .join('\n\n');
+                    
+                document.getElementById('batchOutput').innerText = cleanPrompts;
 
                 emptyState.classList.add('hidden');
                 outputContainer.classList.remove('hidden');
                 showMessage("Workflow Build Complete");
             } catch (e) {
+                console.error(e);
                 showMessage(e.message, true);
             } finally {
                 btn.disabled = false;
