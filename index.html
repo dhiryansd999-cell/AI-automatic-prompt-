@@ -204,7 +204,7 @@
 
     <script>
         const apiKey = "AIzaSyDLRswNLNJS4T4UzbUg_UFZvFiHejXehI8"; 
-        const model = "gemini-2.5-flash-preview-09-2025";
+        const model = "gemini-2.0-flash";
         
         let selections = {
             niche: 'Explainer Video',
@@ -243,7 +243,6 @@
                         return await response.json();
                     }
                     
-                    // Stop on 400s (likely bad request or invalid key)
                     if (response.status >= 400 && response.status < 500) {
                         const errData = await response.json().catch(() => ({}));
                         throw new Error(errData.error?.message || `Request failed with status ${response.status}`);
