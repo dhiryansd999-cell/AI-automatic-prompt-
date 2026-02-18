@@ -12,9 +12,7 @@
             --bg-deep: #050505;
             --bg-card: #0f0f0f;
             --accent: #3b82f6;
-            --accent-soft: rgba(59, 130, 246, 0.1);
             --border: #1f1f1f;
-            --text-muted: #71717a;
         }
 
         body {
@@ -27,20 +25,14 @@
         .glass-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            transition: border-color 0.3s ease;
-        }
-
-        .glass-card:hover {
-            border-color: #27272a;
         }
 
         .option-btn {
             background: #18181b;
             border: 1px solid var(--border);
-            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease;
             color: #a1a1aa;
             text-align: center;
-            cursor: pointer;
         }
 
         .option-btn:hover {
@@ -53,7 +45,7 @@
             color: white;
             border-color: var(--accent);
             font-weight: 600;
-            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.25);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
         }
 
         .loader {
@@ -69,9 +61,7 @@
         .custom-scrollbar::-webkit-scrollbar {
             width: 4px;
         }
-        .custom-scrollbar::-webkit-scrollbar-track {
-            background: transparent;
-        }
+        .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
         .custom-scrollbar::-webkit-scrollbar-thumb {
             background: #27272a;
             border-radius: 10px;
@@ -89,7 +79,7 @@
         }
         .btn-primary:hover {
             filter: brightness(1.1);
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.35);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.4);
         }
     </style>
 </head>
@@ -103,22 +93,21 @@
                 <div class="h-1 w-4 rounded-full bg-zinc-800"></div>
             </div>
             <h1 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-3">PRODUCTION ENGINE</h1>
-            <p class="text-zinc-500 font-medium uppercase text-[10px] tracking-[0.4em]">Professional Workflow Orchestrator</p>
+            <p class="text-zinc-500 font-medium uppercase text-[10px] tracking-[0.4em]">Sequential Shot-by-Shot Visual Orchestrator</p>
         </header>
 
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <!-- Left: Parameters -->
+            <!-- Parameters Sidebar -->
             <div class="lg:col-span-5 space-y-6">
-                <div class="glass-card rounded-3xl p-6 md:p-8 space-y-8">
-                    
-                    <!-- Topic -->
+                <div class="glass-card rounded-3xl p-6 md:p-8 space-y-6">
+                    <!-- Concept -->
                     <div>
                         <label class="block text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-3 ml-1">Project Concept</label>
                         <input id="topic" type="text" placeholder="Enter your core message or story theme..." 
                             class="w-full bg-zinc-900/50 border border-zinc-800 rounded-xl px-5 py-4 text-sm focus:outline-none focus:border-blue-500 transition-all text-white placeholder:text-zinc-700">
                     </div>
 
-                    <!-- Niche Grid -->
+                    <!-- Niche -->
                     <div>
                         <label class="block text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-3 ml-1">Production Niche</label>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-2" id="nicheGrid">
@@ -131,7 +120,7 @@
                         </div>
                     </div>
 
-                    <!-- Aesthetic Grid -->
+                    <!-- Aesthetic -->
                     <div>
                         <label class="block text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-3 ml-1">Visual Aesthetic</label>
                         <div class="grid grid-cols-2 md:grid-cols-3 gap-2" id="styleGrid">
@@ -144,42 +133,39 @@
                         </div>
                     </div>
 
-                    <!-- Character Engine -->
+                    <!-- Character Section -->
                     <div class="pt-6 border-t border-zinc-800/50 space-y-4">
-                        <label class="block text-[10px] font-bold text-blue-500 uppercase tracking-widest mb-1">Subject Orchestration</label>
-                        
+                        <label class="block text-[10px] font-bold text-blue-500 uppercase tracking-widest mb-1">Subject Configuration</label>
                         <div class="grid grid-cols-2 md:grid-cols-4 gap-2" id="characterGrid">
                             <button onclick="selectOption('character', 'None')" data-value="None" class="option-btn p-2.5 rounded-xl text-[9px]">None</button>
                             <button onclick="selectOption('character', 'Male Lead')" data-value="Male Lead" class="option-btn p-2.5 rounded-xl text-[9px] active">Male</button>
                             <button onclick="selectOption('character', 'Female Lead')" data-value="Female Lead" class="option-btn p-2.5 rounded-xl text-[9px]">Female</button>
                             <button onclick="selectOption('character', 'Diverse Group')" data-value="Diverse Group" class="option-btn p-2.5 rounded-xl text-[9px]">Group</button>
                         </div>
-
                         <div class="grid grid-cols-2 gap-2" id="consistencyGrid">
-                            <button onclick="selectOption('consistency', 'Random')" data-value="Random" class="option-btn p-2.5 rounded-xl text-[10px]">Random Subjects</button>
+                            <button onclick="selectOption('consistency', 'Random')" data-value="Random" class="option-btn p-2.5 rounded-xl text-[10px]">Dynamic</button>
                             <button onclick="selectOption('consistency', 'Persistent')" data-value="Persistent" class="option-btn p-2.5 rounded-xl text-[10px] active">Consistent Profile</button>
                         </div>
                     </div>
 
                     <!-- Tone & Platform -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-6 border-t border-zinc-800/50">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-6 border-t border-zinc-800/50">
                         <div>
-                            <label class="block text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-3 ml-1">Narrative Tone</label>
-                            <div class="grid grid-cols-2 gap-2" id="toneGrid">
-                                <button onclick="selectOption('tone', 'Motivational')" data-value="Motivational" class="option-btn p-2.5 rounded-xl text-[9px] active">Motiv.</button>
-                                <button onclick="selectOption('tone', 'Deep/Philosophical')" data-value="Deep/Philosophical" class="option-btn p-2.5 rounded-xl text-[9px]">Philos.</button>
-                                <button onclick="selectOption('tone', 'Urgent/Hype')" data-value="Urgent/Hype" class="option-btn p-2.5 rounded-xl text-[9px]">Hype</button>
-                                <button onclick="selectOption('tone', 'Sarcastic/Witty')" data-value="Sarcastic/Witty" class="option-btn p-2.5 rounded-xl text-[9px]">Witty</button>
-                            </div>
+                            <label class="block text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-2 ml-1">Tone</label>
+                            <select id="toneSelect" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-3 text-[10px] text-zinc-200 focus:outline-none">
+                                <option value="Motivational">Motivational</option>
+                                <option value="Philosophical">Philosophical</option>
+                                <option value="Urgent/Hype">Urgent</option>
+                                <option value="Sarcastic">Sarcastic</option>
+                            </select>
                         </div>
                         <div>
-                            <label class="block text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-3 ml-1">Target Platform</label>
-                            <div class="grid grid-cols-2 gap-2" id="platformGrid">
-                                <button onclick="selectOption('platform', 'YouTube Longform')" data-value="YouTube Longform" class="option-btn p-2.5 rounded-xl text-[9px] active">YouTube</button>
-                                <button onclick="selectOption('platform', 'TikTok/Shorts')" data-value="TikTok/Shorts" class="option-btn p-2.5 rounded-xl text-[9px]">TikTok</button>
-                                <button onclick="selectOption('platform', 'Instagram Reels')" data-value="Instagram Reels" class="option-btn p-2.5 rounded-xl text-[9px]">Insta</button>
-                                <button onclick="selectOption('platform', 'LinkedIn/Pro')" data-value="LinkedIn/Pro" class="option-btn p-2.5 rounded-xl text-[9px]">LinkedIn</button>
-                            </div>
+                            <label class="block text-[10px] font-bold text-zinc-500 uppercase tracking-widest mb-2 ml-1">Platform</label>
+                            <select id="platformSelect" class="w-full bg-zinc-900 border border-zinc-800 rounded-xl px-3 py-3 text-[10px] text-zinc-200 focus:outline-none">
+                                <option value="YouTube">YouTube</option>
+                                <option value="TikTok/Reels">Short Form</option>
+                                <option value="LinkedIn">LinkedIn</option>
+                            </select>
                         </div>
                     </div>
 
@@ -191,84 +177,62 @@
                 </div>
             </div>
 
-            <!-- Right: Results -->
+            <!-- Output Display -->
             <div class="lg:col-span-7 space-y-6">
                 <div id="messageBox" class="hidden p-4 rounded-xl text-center font-bold text-[10px] uppercase tracking-widest"></div>
 
                 <div id="outputContainer" class="hidden space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
-                    
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <!-- Raw Script -->
                         <div class="glass-card rounded-2xl p-6">
-                            <div class="flex items-center justify-between mb-5">
+                            <div class="flex items-center justify-between mb-4">
                                 <h3 class="text-[10px] font-bold uppercase tracking-widest text-zinc-500">VO Script</h3>
-                                <button onclick="copyToClipboard('batchNarration', 'Script copied')" class="text-blue-500 hover:text-white transition-colors text-[10px] font-bold uppercase">Copy</button>
+                                <button onclick="copyToClipboard('batchNarration', 'Script copied')" class="text-blue-500 text-[10px] font-bold uppercase">Copy</button>
                             </div>
-                            <div id="batchNarration" class="code-block rounded-xl p-5 text-[11px] font-sans leading-relaxed h-52 overflow-y-auto custom-scrollbar text-zinc-300"></div>
+                            <div id="batchNarration" class="code-block rounded-xl p-5 text-[11px] h-52 overflow-y-auto custom-scrollbar text-zinc-300"></div>
                         </div>
-
-                        <!-- Prompt Assets -->
                         <div class="glass-card rounded-2xl p-6">
-                            <div class="flex items-center justify-between mb-5">
-                                <h3 class="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Prompt Batch</h3>
-                                <button onclick="copyToClipboard('batchOutput', 'Prompts copied')" class="text-blue-500 hover:text-white transition-colors text-[10px] font-bold uppercase">Copy All</button>
+                            <div class="flex items-center justify-between mb-4">
+                                <h3 class="text-[10px] font-bold uppercase tracking-widest text-zinc-500">Sequential Batch</h3>
+                                <button onclick="copyToClipboard('batchOutput', 'Prompts copied')" class="text-blue-500 text-[10px] font-bold uppercase">Copy All</button>
                             </div>
-                            <div id="batchOutput" class="code-block rounded-xl p-5 text-[11px] h-52 overflow-y-auto custom-scrollbar leading-loose text-zinc-400"></div>
+                            <div id="batchOutput" class="code-block rounded-xl p-5 text-[11px] h-52 overflow-y-auto custom-scrollbar text-zinc-400"></div>
                         </div>
                     </div>
-
-                    <!-- Visual Breakdown -->
                     <div class="glass-card rounded-2xl p-8 md:p-12 custom-scrollbar overflow-y-auto max-h-[100vh]">
                         <div id="mainOutput" class="prose prose-invert prose-blue max-w-none"></div>
                     </div>
                 </div>
 
-                <!-- Initial Placeholder -->
+                <!-- Empty State -->
                 <div id="emptyState" class="h-[750px] flex flex-col items-center justify-center glass-card rounded-3xl border-dashed">
-                    <div class="w-16 h-16 mb-8 bg-zinc-900 border border-zinc-800 rounded-2xl rotate-45 flex items-center justify-center">
-                        <svg class="w-7 h-7 text-zinc-700 -rotate-45" fill="currentColor" viewBox="0 0 20 20"><path d="M4 3a2 2 0 100 4h12a2 2 0 100-4H4z"/><path fill-rule="evenodd" d="M3 8h14v7a2 2 0 01-2 2H5a2 2 0 01-2-2V8zm5 3a1 1 0 011-1h2a1 1 0 110 2H9a1 1 0 01-1-1z" clip-rule="evenodd"/></svg>
-                    </div>
-                    <p class="text-[11px] font-bold text-zinc-600 uppercase tracking-[0.5em]">System Idle</p>
+                    <p class="text-[11px] font-bold text-zinc-600 uppercase tracking-[0.5em]">Engine Standby</p>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        const apiKey = ""; 
+        const apiKey = ""; // Runtime provides the key
         const model = "gemini-2.5-flash-preview-09-2025";
         
         let selections = {
             niche: 'Explainer Video',
             style: 'Minimalist',
             character: 'Male Lead',
-            consistency: 'Persistent',
-            tone: 'Motivational',
-            platform: 'YouTube Longform'
+            consistency: 'Persistent'
         };
 
         function selectOption(type, value) {
             selections[type] = value;
-            const gridMap = {
-                niche: 'nicheGrid',
-                style: 'styleGrid',
-                character: 'characterGrid',
-                consistency: 'consistencyGrid',
-                tone: 'toneGrid',
-                platform: 'platformGrid'
-            };
-            
+            const gridMap = { niche: 'nicheGrid', style: 'styleGrid', character: 'characterGrid', consistency: 'consistencyGrid' };
             const container = document.getElementById(gridMap[type]);
-            const buttons = container.querySelectorAll('button');
-            buttons.forEach(btn => {
-                btn.classList.toggle('active', btn.dataset.value === value);
-            });
+            container.querySelectorAll('button').forEach(btn => btn.classList.toggle('active', btn.dataset.value === value));
         }
 
         function showMessage(msg, isError = false) {
             const box = document.getElementById('messageBox');
             box.textContent = msg;
-            box.className = `block mb-6 p-4 rounded-xl text-center font-bold text-[10px] tracking-widest ${isError ? 'bg-red-500/10 text-red-500 border border-red-500/20' : 'bg-blue-500/10 text-blue-500 border border-blue-500/20'}`;
+            box.className = `block mb-6 p-4 rounded-xl text-center font-bold text-[10px] tracking-widest ${isError ? 'bg-red-500/10 text-red-500' : 'bg-blue-500/10 text-blue-500'}`;
             setTimeout(() => box.classList.add('hidden'), 5000);
         }
 
@@ -278,12 +242,11 @@
                 try {
                     const response = await fetch(url, options);
                     if (response.ok) return await response.json();
-                    if (response.status !== 429 && response.status < 500) break;
                 } catch (e) {}
-                await new Promise(resolve => setTimeout(resolve, delay));
+                await new Promise(r => setTimeout(r, delay));
                 delay *= 2;
             }
-            throw new Error("Creative engine unavailable.");
+            throw new Error("API Connection Failed.");
         }
 
         async function handleGenerate() {
@@ -298,92 +261,68 @@
             btn.disabled = true;
             btnLoader.classList.remove('hidden');
 
-            const systemPrompt = `You are a World-Class Video Editor & Creative Director.
-            
-            PRODUCTION BRIEF:
-            - Niche: ${selections.niche}
-            - Visual Aesthetic: ${selections.style}
-            - Subject Configuration: ${selections.character}
-            - Continuity Logic: ${selections.consistency === 'Persistent' ? 'SAME PHYSICAL IDENTITY PROFILE' : 'VARY SUBJECTS'}
-            - Platform Context: ${selections.platform}
-            - Narrative Tone: ${selections.tone}
+            const tone = document.getElementById('toneSelect').value;
+            const platform = document.getElementById('platformSelect').value;
 
-            DIRECTOR'S RULES:
-            1. SCRIPTING: Optimized pacing for ${selections.platform}. Hook, Narrative, Call to action.
-            2. SEQUENTIAL STORYBOARDING: Do NOT generate random prompt options. Generate a chronological, SHOT-BY-SHOT visual narrative. Each prompt must lead into the next to form a cohesive story arc.
-            3. CINEMATOGRAPHY: Define prompts with professional video editing precision. Specify Shot Sizes (ECU, CU, MS, WS, OTS), Camera Movements (Tracking, Pan, Push-in, Tilt), and deliberate Transitions (Match-cuts, Jump-cuts).
-            4. CHARACTER CONTINUITY: If subject is persistent, create a 1-sentence 'Subject Identity Profile' (physical traits, attire) and use it in every prompt featuring that person to ensure visual identicality.
-            5. TECHNICAL PROMPTING: Include focal lengths (24mm wide, 85mm bokeh), professional lighting (Rim lighting, Rembrandt, Volumetric God rays), and high-end engine keywords.
-            
-            OUTPUT SECTIONS:
-            - Section: Title & Visual Strategy (Including Character Identity Profile).
-            - Section: Full Voiceover Script.
-            - Section: Sequential Shot-by-Shot Storyboard. Breakdown each script segment into 2-3 chronologically ordered shots that tell a visual story.
-            - Marker "### SCRIPT_ONLY_START" for raw script text.
-            - Marker "### BATCH_PROMPTS_START" for double-spaced raw prompts in chronological order (no labels, no numbers, no prefixes).`;
+            const systemPrompt = `You are a Pro Video Editor & Storyboard Artist.
+            PRODUCTION SPECS:
+            - Niche: ${selections.niche} | Style: ${selections.style}
+            - Subject: ${selections.character} | Consistency: ${selections.consistency}
+            - Platform: ${platform} | Tone: ${tone}
 
-            const userQuery = `Produce the complete sequential shot-by-shot production build for: "${topic}". Ensure a logical visual story flows between shots. Strictly enforce the ${selections.niche} niche and ${selections.style} aesthetic.`;
+            STRICT INSTRUCTIONS:
+            1. SHOT-BY-SHOT STORYTELLING: Do NOT generate independent options. Generate a sequential, chronological narrative sequence of shots that tell a visual story from beginning to end.
+            2. VISUAL CONTINUITY: If Persistent, define a 'Physical Identity Profile' (e.g., specific age, hair, clothing) and embed it in every prompt featuring that character.
+            3. TECHNICAL PRECISION: Define specific Shot Sizes (ECU, MS, WS), Camera Movements (Tracking, Pan, Pull-in), and Lighting (Volumetric, Cinematic Rim-light).
+            4. NICHE ACCURACY: If "Explainer Video", prioritize metaphors and high-clarity compositions.
+            
+            OUTPUT:
+            - [Title & Visual Concept]
+            - [Full Narrative Script]
+            - [Story Beats: Sequential Shot List with Script Link + Professional Prompt]
+            - "### SCRIPT_ONLY_START" for raw script.
+            - "### BATCH_PROMPTS_START" for double-spaced raw sequential prompts (no numbers, labels, or shot headings).`;
 
             try {
-                const data = await fetchWithRetry(
-                    `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-                    {
-                        method: "POST",
-                        headers: { "Content-Type": "application/json" },
-                        body: JSON.stringify({
-                            contents: [{ parts: [{ text: userQuery }] }],
-                            systemInstruction: { parts: [{ text: systemPrompt }] }
-                        })
-                    }
-                );
+                const data = await fetchWithRetry(`https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: `Create a shot-by-shot production build for: "${topic}"` }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] }
+                    })
+                });
 
                 const resultText = data.candidates?.[0]?.content?.parts?.[0]?.text;
-                if (!resultText) throw new Error("Empty build response.");
+                const [main, scriptAndPrompts] = resultText.split("### SCRIPT_ONLY_START");
+                const [script, prompts] = (scriptAndPrompts || "").split("### BATCH_PROMPTS_START");
 
-                const [mainMarkdown, scriptAndPrompts] = resultText.split("### SCRIPT_ONLY_START");
-                const [scriptRaw, promptsRaw] = (scriptAndPrompts || "").split("### BATCH_PROMPTS_START");
-
-                document.getElementById('mainOutput').innerHTML = formatMarkdown(mainMarkdown);
-                document.getElementById('batchNarration').innerText = (scriptRaw || "").trim();
-
-                const cleanBatch = (promptsRaw || "").trim()
-                    .split('\n')
-                    .filter(line => line.trim().length > 20)
-                    .map(line => line.replace(/^\d+\.\s*/, '').replace(/^-\s*/, '').replace(/^Prompt:\s*/i, '').replace(/^Shot\s\d+:\s*/i, '').trim())
-                    .join('\n\n');
-
-                document.getElementById('batchOutput').innerText = cleanBatch;
+                document.getElementById('mainOutput').innerHTML = main.replace(/^## (.*$)/gim, '<h2 class="text-xl font-bold mt-8 mb-4 text-blue-500">$1</h2>').replace(/\*\*(.*)\*\*/g, '<strong class="text-white">$1</strong>').replace(/\n/g, '<br>');
+                document.getElementById('batchNarration').innerText = script.trim();
+                document.getElementById('batchOutput').innerText = prompts.trim().split('\n').filter(l => l.length > 20).join('\n\n');
 
                 emptyState.classList.add('hidden');
                 outputContainer.classList.remove('hidden');
-                showMessage("Production Pipeline Build Complete");
-
-            } catch (error) {
-                showMessage(error.message, true);
+                showMessage("Build Complete");
+            } catch (e) {
+                showMessage(e.message, true);
             } finally {
                 btn.disabled = false;
                 btnLoader.classList.add('hidden');
             }
         }
 
-        function formatMarkdown(text) {
-            return text
-                .replace(/^## (.*$)/gim, '<h2 class="text-xl font-bold mt-10 mb-4 text-blue-500 uppercase tracking-widest">$1</h2>')
-                .replace(/^### (.*$)/gim, '<h3 class="text-xs font-bold mt-8 mb-4 text-white border-l-2 border-blue-500 pl-4 uppercase tracking-wider">$1</h3>')
-                .replace(/\*\*(.*)\*\*/gim, '<strong class="text-white font-bold">$1</strong>')
-                .replace(/\n/g, '<br>');
-        }
-
-        function copyToClipboard(elementId, successMsg) {
-            const text = document.getElementById(elementId).innerText;
-            const temp = document.createElement('textarea');
-            temp.value = text;
-            document.body.appendChild(temp);
-            temp.select();
+        function copyToClipboard(id, msg) {
+            const el = document.getElementById(id);
+            const textarea = document.createElement('textarea');
+            textarea.value = el.innerText;
+            document.body.appendChild(textarea);
+            textarea.select();
             document.execCommand('copy');
-            document.body.removeChild(temp);
-            showMessage(successMsg);
+            document.body.removeChild(textarea);
+            showMessage(msg);
         }
     </script>
 </body>
 </html>
+
